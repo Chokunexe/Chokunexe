@@ -3,7 +3,6 @@ local Char = Player.Character or Player.CharacterAdded:Wait()
 local CombatFramework = require(Player.PlayerScripts.CombatFramework)
 local Camera = require(game.ReplicatedStorage.Util.CameraShaker)
 
--- หยุดการสั่นของกล้อง
 Camera:Stop()
 
 _G.AutoFarm = true
@@ -29,7 +28,7 @@ local function ChackQ()
                 ["CFrameQ"] = CFrame.new(1059.37195, 15.4495068, 1550.4231),
                 ["CFrameMon"] = CFrame.new(1196.172, 11.8689699, 1616.95923)
             }
-        elseif Lv.Value >= 10 and Lv.Value < 30 then
+        elseif Lv.Value >= 10 and Lv.Value < 29 then
             return {
                 ["Mon"] = 'Monkey',
                 ["NumQ"] = 1,
@@ -37,7 +36,7 @@ local function ChackQ()
                 ["CFrameQ"] = CFrame.new(-1598.08911, 35.5501175, 153.377838),
                 ["CFrameMon"] = CFrame.new(-1619.10632, 21.7005882, 142.148117)
             }
-        elseif Lv.Value >= 30 and Lv.Value <= 40 then
+        elseif Lv.Value >= 30 and Lv.Value <= 39 then
             return {
                 ["Mon"] = 'Pirate',
                 ["NumQ"] = 1,
@@ -45,7 +44,7 @@ local function ChackQ()
                 ["CFrameQ"] = CFrame.new(-1140.762939453125, 5.277381896972656, 3830.43017578125),
                 ["CFrameMon"] = CFrame.new(-1180.4862060546875, 4.877380847930908, 3948.302978515625)
             }
-        elseif Lv.Value >= 40 and Lv.Value <= 60 then
+        elseif Lv.Value >= 40 and Lv.Value <= 59 then
             return {
                 ["Mon"] = 'Brute',
                 ["NumQ"] = 2,
@@ -53,17 +52,36 @@ local function ChackQ()
                 ["CFrameQ"] = CFrame.new(-1140.762939453125, 5.277381896972656, 3830.43017578125),
                 ["CFrameMon"] = CFrame.new(-1145.1796875, 14.935205459594727, 4315.4931640625)
             }
+        elseif Lv.Value >= 60 and Lv.Value < 75 then
+            return {
+                ["Mon"] = 'Desert Bandit',
+                ["NumQ"] = 1,
+                ["NameQ"] = 'DesertQuest',
+                ["CFrameQ"] = CFrame.new(893.2763671875, 6.563793659210205, 4393.5732421875),
+                ["CFrameMon"] = CFrame.new(922.5709228515625, 6.574110507965088, 4476.7412109375)
+            }
+        elseif Lv.Value >= 76and Lv.Value <= 79 then
+            return {
+                ["Mon"] = 'Desert Officer',
+                ["NumQ"] = 2,
+                ["NameQ"] = 'DesertQuest',
+                ["CFrameQ"] = CFrame.new(893.2763671875, 6.563793659210205, 4393.5732421875),
+                ["CFrameMon"] = CFrame.new(1606.2596435546875, 1.7362850904464722, 4362.77783203125)
+            }
         end
     end
     return nil
 end
 
-local function TW(CFrame)
+local function TW(...)
+    local CFrame = {...}
     pcall(function()
         if not _G.StopTween and Char and Char:FindFirstChild("HumanoidRootPart") then
-            local Distance = (CFrame.Position - Char.HumanoidRootPart.Position).Magnitude
-            local Tween = game:GetService("TweenService"):Create(Char.HumanoidRootPart, TweenInfo.new(Distance/100, Enum.EasingStyle.Cubic), {CFrame = CFrame})
-            if Char.Humanoid.Health > 0 then 
+            local Distance = (CFrame[1].Position - Char.HumanoidRootPart.Position).Magnitude
+            Tween = game:GetService("TweenService"):Create(Char.HumanoidRootPart, TweenInfo.new(Distance/100, Enum.EasingStyle.Cubic), {CFrame = CFrame[1]})
+            if _G.StopTween then 
+                Tween:Cancel()
+            elseif Char.Humanoid.Health > 0 then 
                 Tween:Play() 
             end
             if not Char.HumanoidRootPart:FindFirstChild("OMG Hub") then
@@ -88,7 +106,7 @@ end
 coroutine.wrap(function()
     game:GetService("RunService").Stepped:Connect(function()
         if getupvalues(CombatFramework)[2]['activeController'].timeToNextAttack then
-            getupvalues(CombatFramework)[2]['activeController'].timeToNextAttack = 100
+            getupvalues(CombatFramework)[2]['activeController'].timeToNextAttack = 300
             getupvalues(CombatFramework)[2]['activeController'].hitboxMagnitude = 25
             getupvalues(CombatFramework)[2]['activeController']:attack()
         end
@@ -111,14 +129,13 @@ spawn(function()
                         end
                     else
                         local enemy = game:GetService("Workspace").Enemies:FindFirstChild(questData.Mon)
-                        if enemy and enemy:FindFirstChild("Humanoid") and enemy:FindFirstChild("HumanoidRootPart") then
+                        if enemy then
                             repeat
-                                if enemy.Humanoid.Health > 0 then
-                                    TW(enemy.HumanoidRootPart.CFrame * CFrame.new(0, 20, 0))
+                                if enemy and enemy:FindFirstChild("Humanoid") and enemy:FindFirstChild("HumanoidRootPart") and enemy.Humanoid.Health > 0 then
+                                    TW(enemy:FindFirstChild("HumanoidRootPart").CFrame * CFrame.new(0, 20, 0))
                                     game:GetService("VirtualUser"):CaptureController()
                                     game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
                                 else
-                                    -- ถ้ามอนสเตอร์ตายหรือไม่มีให้รอที่ตำแหน่งของมัน
                                     Char.HumanoidRootPart.CFrame = questData.CFrameMon * CFrame.new(0, 20, 0)
                                 end
                                 wait(1)
@@ -137,8 +154,8 @@ end)
 _G.bringmob = true
 while _G.bringmob do wait()
     pcall(function()
-        for _, v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-            for _, y in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+        for i, v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+            for x, y in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                 v.HumanoidRootPart.CFrame = y.HumanoidRootPart.CFrame
                 v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
                 y.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
@@ -156,3 +173,4 @@ while _G.bringmob do wait()
         end
     end)
 end
+
