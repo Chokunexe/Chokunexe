@@ -60,7 +60,7 @@ local function ChackQ()
                 ["CFrameQ"] = CFrame.new(893.2763671875, 6.563793659210205, 4393.5732421875),
                 ["CFrameMon"] = CFrame.new(922.5709228515625, 6.574110507965088, 4476.7412109375)
             }
-        elseif Lv.Value >= 76 and Lv.Value <= 79 then
+        elseif Lv.Value >= 76 and Lv.Value <= 89 then
             return {
                 ["Mon"] = 'Desert Officer',
                 ["NumQ"] = 2,
@@ -78,7 +78,7 @@ local function TW(...)
     pcall(function()
         if not _G.StopTween and Char and Char:FindFirstChild("HumanoidRootPart") then
             local Distance = (CFrame[1].Position - Char.HumanoidRootPart.Position).Magnitude
-            Tween = game:GetService("TweenService"):Create(Char.HumanoidRootPart, TweenInfo.new(Distance/100, Enum.EasingStyle.Cubic), {CFrame = CFrame[1]})
+            Tween = game:GetService("TweenService"):Create(Char.HumanoidRootPart, TweenInfo.new(Distance / 100, Enum.EasingStyle.Cubic), {CFrame = CFrame[1]})
             if _G.StopTween then 
                 Tween:Cancel()
             elseif Char.Humanoid.Health > 0 then 
@@ -103,13 +103,26 @@ local function ClearQ()
     end
 end
 
+local function FastAttack()
+    local activeController = getupvalues(CombatFramework)[2]['activeController']
+    
+    if activeController.timeToNextAttack then
+        activeController.timeToNextAttack = 0 -- ลดเวลาระหว่างการโจมตี
+        activeController.attacking = false
+        activeController.increment = 4
+        activeController.blocking = false   
+        activeController.hitboxMagnitude = 150
+        activeController.humanoid.AutoRotate = true
+        activeController.focusStart = 0
+        activeController.currentAttackTrack = 0
+        activeController:attack() -- เริ่มการโจมตี
+        activeController.hitboxMagnitude = 0 -- ล็อกมอนให้หยุดอยู่กับที่
+    end
+end
+
 coroutine.wrap(function()
     game:GetService("RunService").Stepped:Connect(function()
-        if getupvalues(CombatFramework)[2]['activeController'].timeToNextAttack then
-            getupvalues(CombatFramework)[2]['activeController'].timeToNextAttack = 300
-            getupvalues(CombatFramework)[2]['activeController'].hitboxMagnitude = 25
-            getupvalues(CombatFramework)[2]['activeController']:attack()
-        end
+        FastAttack()
     end)
 end)()
 
@@ -132,6 +145,9 @@ spawn(function()
                         if enemy then
                             repeat
                                 if enemy and enemy:FindFirstChild("Humanoid") and enemy:FindFirstChild("HumanoidRootPart") and enemy.Humanoid.Health > 0 then
+                                    -- ดึงมอนมายังตำแหน่ง CFrameMon
+                                    enemy.HumanoidRootPart.CFrame = questData.CFrameMon
+                                    wait(0.5) -- รอ 0.5 วินาทีก่อน
                                     TW(enemy:FindFirstChild("HumanoidRootPart").CFrame * CFrame.new(0, 20, 0))
                                     game:GetService("VirtualUser"):CaptureController()
                                     game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
@@ -154,23 +170,16 @@ end)
 _G.bringmob = true
 while _G.bringmob do wait()
     pcall(function()
-        for i, v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-            for x, y in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-                v.HumanoidRootPart.CFrame = y.HumanoidRootPart.CFrame
-                v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
-                y.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
-                v.HumanoidRootPart.Transparency = 1
-                v.HumanoidRootPart.CanCollide = false
-                y.HumanoidRootPart.CanCollide = false
-                v.Humanoid.WalkSpeed = 0
-                y.Humanoid.WalkSpeed = 0
-                v.Humanoid.JumpPower = 0
-                y.Humanoid.JumpPower = 0
-                if sethiddenproperty then
-                    sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-                end
+        for _, enemy in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+            enemy.HumanoidRootPart.CFrame = enemy.HumanoidRootPart.CFrame -- ดึงมอน
+            enemy.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+            enemy.HumanoidRootPart.Transparency = 1
+            enemy.HumanoidRootPart.CanCollide = false
+            enemy.Humanoid.WalkSpeed = 0
+            enemy.Humanoid.JumpPower = 0
+            if sethiddenproperty then
+                sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
             end
         end
     end)
 end
-
