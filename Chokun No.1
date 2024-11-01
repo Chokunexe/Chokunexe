@@ -67,6 +67,21 @@ local function ChackQ()
                 ["NameQ"] = 'DesertQuest',
                 ["CFrameQ"] = CFrame.new(893.2763671875, 6.563793659210205, 4393.5732421875),
                 ["CFrameMon"] = CFrame.new(1606.2596435546875, 1.7362850904464722, 4362.77783203125)
+                elseif Lv.Value >= 90 and Lv.Value < 99 then
+            return {
+                ["Mon"] = 'Snow Bandit',
+                ["NumQ"] = 1,
+                ["NameQ"] = 'SnowQuest',
+                ["CFrameQ"] = CFrame.new(1387.727783203125, 87.39810943603516, -1299.383056640625),
+                ["CFrameMon"] = CFrame.new(1331.1466064453125, 87.39810943603516, -1384.1292724609375)
+            }
+        elseif Lv.Value >= 100 and Lv.Value < 109 then
+            return {
+                ["Mon"] = 'Snowman',
+                ["NumQ"] = 2,
+                ["NameQ"] = 'SnowQuest',
+                ["CFrameQ"] = CFrame.new(1387.727783203125, 87.39810943603516, -1299.383056640625),
+                ["CFrameMon"] = CFrame.new(1154.445068359375, 105.89771270751953, -1461.7958984375)
             }
         end
     end
