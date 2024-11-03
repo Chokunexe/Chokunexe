@@ -43,21 +43,21 @@ end
 local function CheckQuest()
     local Lv = Player:FindFirstChild("Data") and Player.Data:FindFirstChild("Level")
     if Lv and Lv.Value then
-        if Lv.Value >= 1 and Lv.Value <= 9 then
+         if Lv.Value >= 1 and Lv.Value <= 9 then
             return {
-                ["Mon"] = 'Bandit',
-                ["NumQ"] = 1,
-                ["NameQ"] = 'BanditQuest1',
-                ["CFrameQ"] = CFrame.new(1059.37195, 15.4495068, 1550.4231),
-                ["CFrameMon"] = CFrame.new(1196.172, 0, 1616.95923)
+                ["Mon"] = 'Bandit', 
+                ["NameQ"] = 'BanditQuest1', 
+                ["NumQ"] = 1, 
+                ["CFrameQ"] = CFrame.new(1059.37195, 15.4495068, 1550.4231), 
+                ["CFrameMon"] = CFrame.new(1196.172, 11.8689699, 1616.95923)
             }
         elseif Lv.Value >= 10 and Lv.Value <= 14 then
             return {
-                ["Mon"] = 'Monkey',
-                ["NumQ"] = 1,
-                ["NameQ"] = 'JungleQuest',
-                ["CFrameQ"] = CFrame.new(-1598.08911, 35.5501175, 153.377838),
-                ["CFrameMon"] = CFrame.new(-1619.10632, 0, 142.148117)
+                ["Mon"] = 'Monkey', 
+                ["NameQ"] = 'JungleQuest', 
+                ["NumQ"] = 1, 
+                ["CFrameQ"] = CFrame.new(-1598.08911, 35.5501175, 153.377838), 
+                ["CFrameMon"] = CFrame.new(-1619.10632, 21.7005882, 142.148117)
             }
         elseif Lv.Value >= 15 and Lv.Value <= 29 then
             return {
@@ -69,43 +69,43 @@ local function CheckQuest()
             }
         elseif Lv.Value >= 30 and Lv.Value <= 39 then
             return {
-                ["Mon"] = 'Brute',
-                ["NumQ"] = 2,
+                ["Mon"] = 'Pirate',
                 ["NameQ"] = 'BuggyQuest1',
-                ["CFrameQ"] = CFrame.new(-1140.3, 4.9, 3825.7),
-                ["CFrameMon"] = CFrame.new(-1122.5, 0, 3855.7)
+                ["NumQ"] = 1,
+                ["CFrameQ"] = CFrame.new(-1140.762939453125, 5.277381896972656, 3830.43017578125),
+                ["CFrameMon"] = CFrame.new(-1180.4862060546875, 4.877380847930908, 3948.302978515625)
             }
         elseif Lv.Value >= 40 and Lv.Value <= 59 then
             return {
-                ["Mon"] = 'Desert Bandit',
-                ["NumQ"] = 1,
-                ["NameQ"] = 'DesertQuest',
-                ["CFrameQ"] = CFrame.new(896.4, 6.4, 4389.8),
-                ["CFrameMon"] = CFrame.new(932.4, 0, 4418.8)
+                ["Mon"] = 'Brute',
+                ["NameQ"] = 'BuggyQuest1',
+                ["NumQ"] = 2,
+                ["CFrameQ"] = CFrame.new(-1140.762939453125, 5.277381896972656, 3830.43017578125),
+                ["CFrameMon"] = CFrame.new(-1145.1796875, 14.935205459594727, 4315.4931640625)
             }
-        elseif Lv.Value >= 60 and Lv.Value <= 74 then
+        elseif Lv.Value >= 60 and Lv.Value < 75 then
+            return {
+                ["Mon"] = 'Desert Bandit',
+                ["NameQ"] = 'DesertQuest',
+                ["NumQ"] = 1,
+                ["CFrameQ"] = CFrame.new(893.2763671875, 6.563793659210205, 4393.5732421875),
+                ["CFrameMon"] = CFrame.new(922.5709228515625, 6.574110507965088, 4476.7412109375)
+            }
+        elseif Lv.Value >= 76 and Lv.Value <= 89 then
             return {
                 ["Mon"] = 'Desert Officer',
-                ["NumQ"] = 2,
                 ["NameQ"] = 'DesertQuest',
-                ["CFrameQ"] = CFrame.new(896.4, 6.4, 4389.8),
-                ["CFrameMon"] = CFrame.new(932.4, 0, 4418.8)
+                ["NumQ"] = 2,
+                ["CFrameQ"] = CFrame.new(893.2763671875, 6.563793659210205, 4393.5732421875),
+                ["CFrameMon"] = CFrame.new(1606.2596435546875, 1.7362850904464722, 4362.77783203125)
             }
-        elseif Lv.Value >= 75 and Lv.Value <= 89 then
+        elseif Lv.Value >= 90 and Lv.Value < 99 then
             return {
                 ["Mon"] = 'Snow Bandit',
+                ["NameQ"] = 'SnowQuest',
                 ["NumQ"] = 1,
-                ["NameQ"] = 'SnowQuest',
-                ["CFrameQ"] = CFrame.new(1388.4, 87.4, -1295.4),
-                ["CFrameMon"] = CFrame.new(1397.2, 0, -1295.4)
-            }
-        elseif Lv.Value >= 90 and Lv.Value <= 109 then
-            return {
-                ["Mon"] = 'Snowman',
-                ["NumQ"] = 2,
-                ["NameQ"] = 'SnowQuest',
-                ["CFrameQ"] = CFrame.new(1388.4, 87.4, -1295.4),
-                ["CFrameMon"] = CFrame.new(1397.2, 0, -1295.4)
+                ["CFrameQ"] = CFrame.new(1387.727783203125, 6.563793659210205, 4393.5732421875),
+                ["CFrameMon"] = CFrame.new(1445.0704345703125, 6.574110507965088, 4476.7412109375)
             }
         end
     end
