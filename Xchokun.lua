@@ -112,24 +112,6 @@ local function CheckQuest()
     return nil
 end
 
-local function TweenTo(targetCFrame, speed)
-    if Char and Char:FindFirstChild("HumanoidRootPart") then
-        local distance = (targetCFrame.Position - Char.HumanoidRootPart.Position).Magnitude
-        local tweenInfo = TweenInfo.new(distance / speed, Enum.EasingStyle.Linear)
-        local tween = TweenService:Create(Char.HumanoidRootPart, tweenInfo, {CFrame = targetCFrame})
-        tween:Play()
-        tween.Completed:Wait() -- รอให้การเคลื่อนไหวเสร็จสิ้น
-    end
-end
-
-local function ClearQuest()
-    local currentQuest = Player.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text
-    local questData = CheckQuest()
-    if questData and not string.find(currentQuest, questData.Mon) then
-        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
-    end
-end
-
 
 spawn(function()
     EquipWeapon("Combat") -- สวมใส่อาวุธ Combat
