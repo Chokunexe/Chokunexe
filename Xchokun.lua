@@ -130,58 +130,117 @@ local function ClearQuest()
     end
 end
 
--- ฟังก์ชัน Fast Attack
-local function FastAttack()
-    local activeController = getupvalues(CombatFramework)[2]['activeController']
-    if activeController.timeToNextAttack then
-        activeController.timeToNextAttack = 0
-        activeController.hitboxMagnitude = 25 -- ปรับ hitbox ให้เป็น 25
-        activeController:attack()
-    end
-end
-
-coroutine.wrap(function()
-    RunService.Stepped:Connect(function()
-        if _G.FastAttack then
-            FastAttack()
-        end
-    end)
-end)()
 
 spawn(function()
     EquipWeapon("Combat") -- สวมใส่อาวุธ Combat
 
+                _G.AutoFarm = true
+        StopTween(_G.AutoFarm)
+spawn(function()
     while wait() do
-        pcall(function()
-            if _G.AutoFarm then
-                ClearQuest()
-                local questData = CheckQuest()
-                if questData then
-                    local UIQ = Player.PlayerGui.Main.Quest
-                    if not UIQ.Visible then
-                        TweenTo(questData.CFrameQ, 250) -- บินไปยังตำแหน่งเควสด้วยความเร็ว 250
-                        if (questData.CFrameQ.Position - Char.HumanoidRootPart.Position).Magnitude <= 15 then
-                            wait(0.2)
-                            GetQuests(questData.NameQ, questData.NumQ) -- เริ่มเควส
+        if _G.AutoFarm then
+            pcall(function()
+                local QuestTitle = game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text
+                if not string.find(QuestTitle, NameMon) then
+                    StartMagnet = false
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+                end
+                if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
+                    StartMagnet = false
+                    CheckQuest()
+                    if BypassTP then
+                    if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - CFrameQuest.Position).Magnitude > 1500 then
+                    BTP(CFrameQuest)
+                    elseif (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - CFrameQuest.Position).Magnitude < 1500 then
+                    TP1(CFrameQuest)
+                    end
+                else
+                    TP1(CFrameQuest)
+                end
+                if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - CFrameQuest.Position).Magnitude <= 20 then
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest",NameQuest,LevelQuest)
+                    end
+                elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
+                    CheckQuest()
+                    if game:GetService("Workspace").Enemies:FindFirstChild(Mon) then
+                        for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                            if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+                                if v.Name == Mon then
+                                    if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, NameMon) then
+                                        repeat task.wait()
+                                            EquipWeapon(_G.SelectWeapon)
+                                            AutoHaki()                                            
+                                            PosMon = v.HumanoidRootPart.CFrame
+                                            TP1(v.HumanoidRootPart.CFrame * Pos)
+                                            v.HumanoidRootPart.CanCollide = false
+                                            v.Humanoid.WalkSpeed = 0
+                                            v.Head.CanCollide = false
+                                            v.HumanoidRootPart.Size = Vector3.new(70,70,70)
+                                            StartMagnet = true
+                                            game:GetService'VirtualUser':CaptureController()
+                                            game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
+                                        until not _G.AutoFarm or v.Humanoid.Health <= 0 or not v.Parent or game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false
+                                    else
+                                        StartMagnet = false
+                                        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+                                    end
+                                end
+                            end
                         end
                     else
-                        local enemy = game:GetService("Workspace").Enemies:FindFirstChild(questData.Mon)
-                        if enemy then
-                            -- ดึงมอนสเตอร์และลอยตัวเหนือมัน
-                            local targetHeight = 20 -- ปรับความสูงที่จะลอยเหนือศัตรู
-                            Char.HumanoidRootPart.CFrame = CFrame.new(questData.CFrameMon.Position.X, questData.CFrameMon.Position.Y + targetHeight, questData.CFrameMon.Position.Z) -- บินอยู่เหนือมอนที่ความสูง 20
-                            repeat
-                                if enemy.Humanoid.Health > 0 then
-                                    local targetPosition = enemy.HumanoidRootPart.Position + Vector3.new(0, targetHeight, 0) -- คำนวณตำแหน่งที่ต้องการลอยอยู่
-                                    Char.HumanoidRootPart.CFrame = CFrame.new(targetPosition) -- ตั้งตำแหน่งตัวละคร
-                                    FastAttack() -- เรียกใช้งานฟังก์ชันตีไว
-                                    wait(0.1) -- รอเล็กน้อยก่อนการโจมตีถัดไป
-                                end
-                            until enemy.Humanoid.Health <= 0 -- ทำซ้ำจนกว่าจะฆ่ามอนสเตอร์
+                        TP1(CFrameMon)
+                        StartMagnet = false
+                        if game:GetService("ReplicatedStorage"):FindFirstChild(Mon) then
+                         TP1(game:GetService("ReplicatedStorage"):FindFirstChild(Mon).HumanoidRootPart.CFrame * CFrame.new(15,10,2))
                         end
                     end
                 end
-            end
-        end)
+            end)
+        end
     end
-end)()
+end)
+
+_G.BringMonster = true
+spawn(function()
+    while task.wait() do
+        pcall(function()
+            if _G.BringMonster then
+                CheckQuest()
+                for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                    if _G.AutoFarm and StartMagnet and v.Name == Mon and (Mon == "Factory Staff [Lv. 800]" or Mon == "Monkey [Lv. 14]" or Mon == "Dragon Crew Warrior [Lv. 1575]" or Mon == "Dragon Crew Archer [Lv. 1600]") and v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 220 then
+                        v.HumanoidRootPart.Size = Vector3.new(50,50,50)
+                        v.HumanoidRootPart.CFrame = PosMon
+                        v.Humanoid:ChangeState(14)
+                        v.HumanoidRootPart.CanCollide = false
+                        v.Head.CanCollide = false
+                        if v.Humanoid:FindFirstChild("Animator") then
+                            v.Humanoid.Animator:Destroy()
+                        end
+                        sethiddenproperty(game:GetService("Players").LocalPlayer,"SimulationRadius",math.huge)
+                    elseif _G.AutoFarm and StartMagnet and v.Name == Mon and v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 275 then
+                        v.HumanoidRootPart.Size = Vector3.new(50,50,50)
+                        v.HumanoidRootPart.CFrame = PosMon
+                        v.Humanoid:ChangeState(14)
+                        v.HumanoidRootPart.CanCollide = false
+                        v.Head.CanCollide = false
+                        if v.Humanoid:FindFirstChild("Animator") then
+                            v.Humanoid.Animator:Destroy()
+                        end
+                        sethiddenproperty(game:GetService("Players").LocalPlayer,"SimulationRadius",math.huge)
+                    end
+
+BypassTP = false
+PosY = "35" ---ความสูงการบินฟาร์ม---
+_G.HAKI = true ----ฮาคิเกราะ
+spawn(function()
+	while wait(.1) do
+		if _G.HAKI then 
+			if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") then
+				local args = {
+					[1] = "Buso"
+				}
+				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+			end
+		end
+	end
+end)
