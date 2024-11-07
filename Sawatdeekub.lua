@@ -942,8 +942,9 @@ function topos(Pos)
         game:GetService("Players").LocalPlayer.Character.HumanoidRootPart,
         TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),
         {CFrame = Pos}
-    ):Play()
+    Play()
 end
+
 
 function TPB(CFgo)
 local tween_s = game:service"TweenService"
@@ -1081,6 +1082,7 @@ game:GetService("RunService").Heartbeat:Connect(function()
 end)
 end)
 
+
 spawn(function()
     pcall(function()
         while wait() do
@@ -1097,6 +1099,7 @@ spawn(function()
     end)
 end)
 
+
 spawn(function()
     pcall(function()
         game:GetService("RunService").Stepped:Connect(function()
@@ -1111,6 +1114,7 @@ spawn(function()
     end)
 end)
 
+
 function InstancePos(pos)
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
 end
@@ -1118,6 +1122,7 @@ end
 function TP3(pos)
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
 end
+
 
 spawn(function()
     while wait() do
@@ -1129,6 +1134,7 @@ spawn(function()
     end
 end)
 
+
 spawn(function()
 game:GetService("RunService").RenderStepped:Connect(function()
     if _G.AutoClick or Fastattack then
@@ -1139,6 +1145,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
     end
 end)
 end)
+
 
 function StopTween(target)
     if not target then
@@ -1154,6 +1161,7 @@ function StopTween(target)
     end
 end
 
+
 spawn(function()
     pcall(function()
         while wait() do
@@ -1168,11 +1176,14 @@ spawn(function()
     end)
 end)
 
+
 game:GetService("Players").LocalPlayer.Idled:connect(function()
     game:GetService("VirtualUser"):Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
     wait(1)
     game:GetService("VirtualUser"):Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
 end)
+
+
 ---เลือกอาวุธ--
 _G.SelectWeapon = "Melee"
 task.spawn(function()
@@ -1214,6 +1225,8 @@ task.spawn(function()
 		end)
 	end
     end)
+
+
 ----ฟาร์มเวล--
 		_G.AutoFarm = true
         StopTween(_G.AutoFarm)
@@ -1280,6 +1293,8 @@ spawn(function()
         end
     end
 end)
+
+
 ----รวมมอน1
 _G.BringMonster = true
 spawn(function()
@@ -1509,6 +1524,8 @@ spawn(function()
         end)
     end
 end)
+
+
 ------รวมมอน2---
 _G.BringMode = "Super Bring" ---Low/Normal/Super Bring
 spawn(function()
@@ -1526,6 +1543,8 @@ spawn(function()
         end
     end
 end)
+
+
 ----คอนฟิกเสริม---
 BypassTP = false
 PosY = "35" ---ความสูงการบินฟาร์ม---
@@ -1542,6 +1561,8 @@ spawn(function()
 		end
 	end
 end)
+
+
 ---ไม่ใส่ก็ได้---
 task.spawn(function()
     while wait() do
@@ -1555,12 +1576,16 @@ task.spawn(function()
     end
 end)
 
+
+
 if game:GetService("ReplicatedStorage").Effect.Container:FindFirstChild("Death") then
     game:GetService("ReplicatedStorage").Effect.Container.Death:Destroy()
 end
 if game:GetService("ReplicatedStorage").Effect.Container:FindFirstChild("Respawn") then
     game:GetService("ReplicatedStorage").Effect.Container.Respawn:Destroy()
 end
+
+
 -----LockFps----
 setfpscap(60)
 -----Fast Attack---
@@ -1578,159 +1603,165 @@ function GetCurrentBlade()
     return ret
 end
 
-                spawn(function()
-            while wait(.4) do
-                if getgenv().FastAttack then
-                    pcall(function()
-game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("hit", bladehit, i, "")                     end)
-                    end
-                    end
-                    end)
+spawn(function()
+    while wait(.4) do
+        if getgenv().FastAttack then
+            pcall(function()
+game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("hit", bladehit, i, "")                     
+            end)
+        end
+    end
+end)
+
 
 local CameraShaker = require(game.ReplicatedStorage.Util.CameraShaker)
 CombatFrameworkR = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework)
 y = debug.getupvalues(CombatFrameworkR)[2]
 spawn(function()
 game:GetService("RunService").RenderStepped:Connect(function()
-if getgenv().FastAttack then
-if typeof(y) == "table" then
-	pcall(function()
-		CameraShaker:Stop()
-		y.activeController.timeToNextAttack = (math.huge^math.huge^math.huge)
-		y.activeController.timeToNextAttack = 0
-		y.activeController.hitboxMagnitude = 2048
-		y.activeController.active = false
-		y.activeController.timeToNextBlock = 0
-		y.activeController.focusStart = 0
-		y.activeController.increment = 1
-		y.activeController.blocking = false
-		y.activeController.attacking = false
-		y.activeController.humanoid.AutoRotate = true
-		GetCurrentBlade() 
-		ret.activeController.timeToNextAttack = (math.huge^math.huge^math.huge)
-		ret.activeController.timeToNextAttack = 0
-		ret.activeController.hitboxMagnitude = 2048
-		ret.activeController.active = false
-		ret.activeController.timeToNextBlock = 0
-		ret.activeController.focusStart = 0
-		ret.activeController.increment = 1
-		ret.activeController.blocking = false
-		ret.activeController.attacking = false
-		ret.activeController.humanoid.AutoRotate = true
+    if getgenv().FastAttack then
+        if typeof(y) == "table" then
+           	pcall(function()
+		    CameraShaker:Stop()
+		    y.activeController.timeToNextAttack = (math.huge^math.huge^math.huge)
+		    y.activeController.timeToNextAttack = 0
+		    y.activeController.hitboxMagnitude = 2048
+		    y.activeController.active = false
+		    y.activeController.timeToNextBlock = 0
+		    y.activeController.focusStart = 0
+		    y.activeController.increment = 1
+		    y.activeController.blocking = false
+		    y.activeController.attacking = false
+		    y.activeController.humanoid.AutoRotate = true
+		    GetCurrentBlade() 
+		    ret.activeController.timeToNextAttack = (math.huge^math.huge^math.huge)
+		    ret.activeController.timeToNextAttack = 0
+		    ret.activeController.hitboxMagnitude = 2048
+		    ret.activeController.active = false
+		    ret.activeController.timeToNextBlock = 0
+		    ret.activeController.focusStart = 0
+            ret.activeController.increment = 1
+		    ret.activeController.blocking = false
+		    ret.activeController.attacking = false
+		    ret.activeController.humanoid.AutoRotate = true
                 game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("weaponChange",tostring(GetCurrentBlade()))
                 game.ReplicatedStorage.Remotes.Validator:FireServer(math.floor(u12 / 1099511627776 * 16777215), u10) 
-	end)
-end
-end
-end)
+	            end)
+            end
+        end
+    end)
 end)
 
 
 _G.FastFarmMode = true
 spawn(function()
-		pcall(function()
-			while wait() do
-				if _G.FastFarmMode and World1 then
-					if game.Players.LocalPlayer.Data.Level.Value >= 10 then
-					    _G.AutoFarm = false
-					    _G.FastFarmMode = true
-					end
-				end
-			end
-		end)
-	end)
-	
-    spawn(function()
-        while wait() do
+    pcall(function()
+		while wait() do
             if _G.FastFarmMode and World1 then
-                pcall(function()
                 if game.Players.LocalPlayer.Data.Level.Value >= 10 then
-                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance",Vector3.new(-7894.6176757813, 5547.1416015625, -380.29119873047))
-                        for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-                            if v.Name == "Shanda" then
-                                if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
-                                    repeat task.wait()
-                                        AutoHaki()
-                                        EquipWeapon(_G.SelectWeapon)
-                                        v.HumanoidRootPart.CanCollide = false
-                                        v.Humanoid.WalkSpeed = 0
-                                        StardMag = true
-                                        FastMon = v.HumanoidRootPart.CFrame
-                                        v.HumanoidRootPart.Size = Vector3.new(80,80,80)                             
-                                        TP1(v.HumanoidRootPart.CFrame * Pos)
-                                        game:GetService("VirtualUser"):CaptureController()
-                                        game:GetService("VirtualUser"):Button1Down(Vector2.new(1280,672))
-                                    until not _G.FastFarmMode or not v.Parent or v.Humanoid.Health <= 0
-                                    StardMag = false
-                                    TP1(CFrame.new(-7678.48974609375, 5566.40380859375, -497.2156066894531))
-                                    UnEquipWeapon(_G.SelectWeapon)
+				    _G.AutoFarm = false
+				    _G.FastFarmMode = true
+				end
+            end
+		end
+	end)
+end)
+
+
+
+spawn(function()
+    while wait() do
+        if _G.FastFarmMode and World1 then
+            pcall(function()
+                if game.Players.LocalPlayer.Data.Level.Value >= 10 then
+                   game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance",Vector3.new(-7894.6176757813, 5547.1416015625, -380.29119873047))
+                    for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                        if v.Name == "Shanda" then
+                            if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+                                repeat task.wait()
+                                    AutoHaki()
+                                    EquipWeapon(_G.SelectWeapon)
+                                    v.HumanoidRootPart.CanCollide = false
+                                    v.Humanoid.WalkSpeed = 0
+                                    StardMag = true
+                                    FastMon = v.HumanoidRootPart.CFrame
+                                    v.HumanoidRootPart.Size = Vector3.new(80,80,80)                             
+                                    TP1(v.HumanoidRootPart.CFrame * Pos)
+                                    game:GetService("VirtualUser"):CaptureController()
+                                    game:GetService("VirtualUser"):Button1Down(Vector2.new(1280,672))
+                                until not _G.FastFarmMode or not v.Parent or v.Humanoid.Health <= 0
+                                StardMag = false
+                                TP1(CFrame.new(-7678.48974609375, 5566.40380859375, -497.2156066894531))
+                                UnEquipWeapon(_G.SelectWeapon)
                                 end
                             end
                         end
-                    else
-                        if game:GetService("ReplicatedStorage"):FindFirstChild("Shanda") then
-                            TP1(game:GetService("ReplicatedStorage"):FindFirstChild("Shanda").HumanoidRootPart.CFrame * CFrame.new(5,10,2))
-                        end
+                else
+                    if game:GetService("ReplicatedStorage"):FindFirstChild("Shanda") then
+                        TP1(game:GetService("ReplicatedStorage"):FindFirstChild("Shanda").HumanoidRootPart.CFrame * CFrame.new(5,10,2))
                     end
-                end)
-            end
+                end
+            end)
         end
-    end)
+    end
+end)
 	
-	spawn(function()
-		pcall(function()
-			while wait() do
-				if _G.FastFarmMode and World1 then
-					if game.Players.LocalPlayer.Data.Level.Value >= 75 then
-						_G.FastFarmMode = false
-						_G.AutoPlayerHunter = true
-					end
-				end
-			end
-		end)
-	end)
-
 spawn(function()
-		pcall(function()
-			while wait() do
-				if _G.FastFarmMode and World1 then
-					if game.Players.LocalPlayer.Data.Level.Value >= 200 then
-				    	_G.AutoFarm = true
-						_G.AutoPlayerHunter = false
-					end
-				end
-			end
-		end)
-	end)
-	
-	spawn(function()
+	pcall(function()
 		while wait() do
-			if _G.AutoPlayerHunter then
-				if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
-					wait(.5)
-					game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("PlayerHunter")
-				else
-					for i,v in pairs(game:GetService("Workspace").Characters:GetChildren()) do
-						if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text,v.Name) then
-							repeat wait()
-								if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") then
-									local args = {
-										[1] = "Buso"
-									}
-									game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
-								end
-								EquipWeapon(_G.SelectWeapon)
-								Useskill = true
-								topos(v.HumanoidRootPart.CFrame * CFrame.new(1,7,3))								
-								v.HumanoidRootPart.Size = Vector3.new(60,60,60)
-								game:GetService'VirtualUser':CaptureController()
-								game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
-							until _G.AutoPlayerHunter == false or v.Humanoid.Health <= 0
-							Useskill = false
-							game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
-						end
-					end
+            if _G.FastFarmMode and World1 then
+				if game.Players.LocalPlayer.Data.Level.Value >= 75 then
+					_G.FastFarmMode = false
+					_G.AutoPlayerHunter = true
 				end
-			end
+            end
 		end
 	end)
+end)
+
+
+spawn(function()
+	pcall(function()
+		while wait() do
+            if _G.FastFarmMode and World1 then
+				if game.Players.LocalPlayer.Data.Level.Value >= 200 then
+				    	_G.AutoFarm = true
+					_G.AutoPlayerHunter = false
+				end
+            end
+		end
+	end)
+end)
+	
+spawn(function()
+	while wait() do
+		if _G.AutoPlayerHunter then
+            if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
+				wait(.5)
+				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("PlayerHunter")
+            else
+				for i,v in pairs(game:GetService("Workspace").Characters:GetChildren()) do
+					if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text,v.Name) then
+						repeat wait()
+				            if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") then
+								local args = {
+									[1] = "Buso"
+									}
+									game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+				            end
+				            EquipWeapon(_G.SelectWeapon)
+				            Useskill = true
+				            topos(v.HumanoidRootPart.CFrame * CFrame.new(1,7,3))								
+				            v.HumanoidRootPart.Size = Vector3.new(60,60,60)
+				            game:GetService'VirtualUser':CaptureController()
+				            game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
+						until _G.AutoPlayerHunter == false or v.Humanoid.Health <= 0
+							Useskill = false
+							game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+                        
+					end
+				end
+            end
+		end
+	end
+end)
