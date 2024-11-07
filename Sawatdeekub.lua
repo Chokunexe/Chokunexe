@@ -832,3 +832,10 @@ function CheckQuest()
         end
     end
 end
+
+
+function Click()
+    wait(.1)
+    game:GetService'VirtualUser':CaptureController()
+    game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
+end
