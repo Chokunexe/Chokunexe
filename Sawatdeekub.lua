@@ -2,6 +2,7 @@ _G.AutoFarm = true
 _G.BringMob = true
 _G.FastAttack = true
 
+--ควย
 
 local function GetQuests(NameQuest, LevelQuest)
     local args = {
