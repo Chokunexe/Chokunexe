@@ -3,6 +3,15 @@ _G.BringMob = true
 _G.FastAttack = true
 
 
+local function GetQuests(NameQuest, LevelQuest)
+    local args = {
+        [1] = "StartQuest",
+        [2] = NameQuest,
+        [3] = LevelQuest
+    }
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+end
+
 
 function CheckQuest() 
     MyLevel = game:GetService("Players").LocalPlayer.Data.Level.Value
