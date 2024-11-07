@@ -1772,62 +1772,62 @@ end)
 
 	
 spawn(function()
-	pcall(function()
-		while wait() do
+    pcall(function()
+	while wait() do
             if _G.FastFarmMode and World1 then
-				if game.Players.LocalPlayer.Data.Level.Value >= 75 then
-					_G.FastFarmMode = false
-					_G.AutoPlayerHunter = true
-				end
-            end
+	        if game.Players.LocalPlayer.Data.Level.Value >= 75 then
+		    _G.FastFarmMode = false
+		    _G.AutoPlayerHunter = true
 		end
-	end)
+            end
+        end
+    end)
 end)
 
 
 spawn(function()
-	pcall(function()
-		while wait() do
+    pcall(function()
+	while wait() do
             if _G.FastFarmMode and World1 then
-				if game.Players.LocalPlayer.Data.Level.Value >= 200 then
-				    	_G.AutoFarm = true
-					_G.AutoPlayerHunter = false
-				end
+		if game.Players.LocalPlayer.Data.Level.Value >= 200 then
+		    _G.AutoFarm = true
+		    _G.AutoPlayerHunter = false
+	        end
             end
-		end
-	end)
+        end
+    end)
 end)
 	
 
 spawn(function()
-	while wait() do
-		if _G.AutoPlayerHunter then
+    while wait() do
+        if _G.AutoPlayerHunter then
             if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
-				wait(.5)
-				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("PlayerHunter")
+	        wait(.5)
+		game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("PlayerHunter")
             else
-				for i,v in pairs(game:GetService("Workspace").Characters:GetChildren()) do
-					if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text,v.Name) then
-						repeat wait()
-				            if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") then
-								local args = {
-									[1] = "Buso"
-									}
-									game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
-				            end
-				            EquipWeapon(_G.SelectWeapon)
-				            Useskill = true
-				            topos(v.HumanoidRootPart.CFrame * CFrame.new(1,7,3))								
-				            v.HumanoidRootPart.Size = Vector3.new(60,60,60)
-				            game:GetService'VirtualUser':CaptureController()
-				            game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
-						until _G.AutoPlayerHunter == false or v.Humanoid.Health <= 0
-							Useskill = false
-							game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+		for i,v in pairs(game:GetService("Workspace").Characters:GetChildren()) do
+		    if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text,v.Name) the
+			repeat wait()
+			    if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") then
+			        local args = {
+				    [1] = "Buso"
+				    }
+				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+			    end
+		            EquipWeapon(_G.SelectWeapon)
+			    Useskill = true
+			    topos(v.HumanoidRootPart.CFrame * CFrame.new(1,7,3))								
+			    v.HumanoidRootPart.Size = Vector3.new(60,60,60)
+			    game:GetService'VirtualUser':CaptureController()
+			    game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
+		        until _G.AutoPlayerHunter == false or v.Humanoid.Health <= 0
+			    Useskill = false
+			    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
                         
-					end
-				end
-            end
+		    end
 		end
+            end
 	end
+    end
 end)
