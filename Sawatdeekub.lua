@@ -4,14 +4,19 @@ _G.FastAttack = true
 
 --ควย
 
-local function GetQuests(NameQuest, LevelQuest)
+local LocalPlayer = game:GetService("Players").LocalPlayer
+local Char = LocalPlayer.Character
+
+_G.AutoFarm = true
+local GetQuests = function(NameQuest,NumberQuest)
     local args = {
         [1] = "StartQuest",
-        [2] = NameQuest,
-        [3] = LevelQuest
+        [2] = NameQuest or "BanditQuest1",
+        [3] = NumberQuest or 1
     }
-    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
-end
+    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer(unpack(args))    
+end;local CheckQuest = function()
+    local MyLevel = LocalPlayer.Data.Level
 
 
 function CheckQuest() 
@@ -1308,6 +1313,27 @@ task.spawn(function()
 		end)
 	end
 end)
+
+
+local TW = function(...)
+    local CFrame = {...}
+    pcall(function()
+        if not _G.StopTween then
+            local Distance = (CFrame[1].Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+            Tween = game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(Distance/20, Enum.EasingStyle.Cubic),{CFrame = CFrame[1]})
+            if _G.StopTween then Tween:Cancel()
+            elseif game.Players.LocalPlayer.Character.Humanoid.Health > 0 then Tween:Play() end
+            if not game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("OMG Hub") then
+                local Noclip = Instance.new("BodyVelocity")
+                Noclip.Name = "OMG Hub"
+                Noclip.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+                Noclip.MaxForce = Vector3.new(9e99,9e99,9e99)
+                Noclip.Velocity = Vector3.new(0,0,0)
+            end
+        end
+    end)
+
+		
 
 
 _G.AutoFarm = true  -- เปิดใช้งานฟาร์ม
