@@ -8,11 +8,11 @@ local LocalPlayer = game:GetService("Players").LocalPlayer
 local Char = LocalPlayer.Character
 
 _G.AutoFarm = true
-local GetQuests = function(NameQuest,NumberQuest)
+local GetQuests = function(NameQuest,LevelQuest)
     local args = {
         [1] = "StartQuest",
         [2] = NameQuest or "BanditQuest1",
-        [3] = NumberQuest or 1
+        [3] = LevelQuest or 1
     }
     game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer(unpack(args))    
 end;local CheckQuest = function()
