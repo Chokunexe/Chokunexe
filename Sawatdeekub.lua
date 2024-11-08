@@ -850,6 +850,37 @@ function CheckQuest()
 end
 
 
+local TweenService = game:GetService("TweenService")
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local rootPart = character:WaitForChild("HumanoidRootPart")
+
+local function moveTo(position, duration)
+    local tweenInfo = TweenInfo.new(duration, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+    local tween = TweenService:Create(rootPart, tweenInfo, {CFrame = position})
+    tween:Play()
+end
+
+spawn(function()
+    while wait(1.5) do
+        if _G.AutoFarm then
+            local destination = CFrame.new(0, 100, 0) -- กำหนดตำแหน่งที่ต้องการย้ายไป
+            moveTo(destination, 1.5) -- เคลื่อนที่ไปยังตำแหน่งด้วย Tween
+        end
+    end
+end)
+
+spawn(function()
+    game:GetService("RunService").Heartbeat:Connect(function()
+        if character:FindFirstChild("Humanoid") and _G.AutoFarm then
+            setfflag("HumanoidParallelRemoveNoPhysics", "False")
+            setfflag("HumanoidParallelRemoveNoPhysicsNoSimulate2", "False")
+            character.Humanoid:ChangeState(11)
+        end
+    end)
+end)
+
+
 function Click()
     wait(.1)
     game:GetService'VirtualUser':CaptureController()
@@ -1585,24 +1616,6 @@ spawn(function()
 end)
 
 
-------รวมมอน2---
-_G.BringMode = "Super Bring" ---Low/Normal/Super Bring
-spawn(function()
-    while wait(.1) do
-        if _G.BringMode then
-            pcall(function()
-                if _G.BringMode == "Low" then
-                    _G.BringMode = 250
-                elseif _G.BringMode == "Normal" then
-                    _G.BringMode = 300
-                elseif _G.BringMode == "Super Bring" then
-                    _G.BringMode = 350
-                end
-            end)
-        end
-    end
-end)
-
 
 ----คอนฟิกเสริม---
 BypassTP = false
@@ -1647,22 +1660,6 @@ if game:GetService("ReplicatedStorage").Effect.Container:FindFirstChild("Respawn
 end
 
 
------LockFps----
-setfpscap(60)
------Fast Attack---
-getgenv().FastAttack = true
-local plr = game.Players.LocalPlayer
-
-local CbFw = debug.getupvalues(require(plr.PlayerScripts.CombatFramework))
-local CbFw2 = CbFw[2]
-
-function GetCurrentBlade() 
-    local y = CbFw2.activeController
-    local ret = y.blades[1]
-    if not ret then return end
-    while ret.Parent~=game.Players.LocalPlayer.Character do ret=ret.Parent end
-    return ret
-end
 
 
 spawn(function()
