@@ -116,38 +116,35 @@ end
 
 spawn(function()
     game:GetService("RunService").RenderStepped:Connect(function()
-        if getgenv().FastAttack then
-            if typeof(y) == "table" then
-                pcall(function()
-                    CameraShaker:Stop()
-                    y.activeController.timeToNextAttack = (math.huge^math.huge^math.huge)
-                    y.activeController.timeToNextAttack = 0
-                    y.activeController.hitboxMagnitude = 2048
-                    y.activeController.active = false
-                    y.activeController.timeToNextBlock = 0
-                    y.activeController.focusStart = 0
-                    y.activeController.increment = 1
-                    y.activeController.blocking = false
-                    y.activeController.attacking = false
-                    y.activeController.humanoid.AutoRotate = true
-                    GetCurrentBlade()
+        pcall(function()
+            CameraShaker:Stop()
+            y.activeController.timeToNextAttack = (math.huge^math.huge^math.huge)
+            y.activeController.timeToNextAttack = 0
+            y.activeController.hitboxMagnitude = 2048
+            y.activeController.active = false
+            y.activeController.timeToNextBlock = 0
+            y.activeController.focusStart = 0
+            y.activeController.increment = 1
+            y.activeController.blocking = false
+            y.activeController.attacking = false
+            y.activeController.humanoid.AutoRotate = true
+            GetCurrentBlade()
 
-                    ret.activeController.timeToNextAttack = (math.huge^math.huge^math.huge)
-                    ret.activeController.timeToNextAttack = 0
-                    ret.activeController.hitboxMagnitude = 2048
-                    ret.activeController.active = false
-                    ret.activeController.timeToNextBlock = 0
-                    ret.activeController.focusStart = 0
-                    ret.activeController.increment = 1
-                    ret.activeController.blocking = false
-                    ret.activeController.attacking = false
-                    ret.activeController.humanoid.AutoRotate = true
+            ret.activeController.timeToNextAttack = (math.huge^math.huge^math.huge)
+            ret.activeController.timeToNextAttack = 0
+            ret.activeController.hitboxMagnitude = 2048
+            ret.activeController.active = false
+            ret.activeController.timeToNextBlock = 0
+            ret.activeController.focusStart = 0
+            ret.activeController.increment = 1
+            ret.activeController.blocking = false
+            ret.activeController.attacking = false
+            ret.activeController.humanoid.AutoRotate = true
 
-                    game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("weaponChange", tostring(GetCurrentBlade()))
-                    game.ReplicatedStorage.Remotes.Validator:FireServer(math.floor(u12 / 1099511627776 * 16777215), u10)
-                end)
-            end
-        end
+            game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("weaponChange", tostring(GetCurrentBlade()))
+            game.ReplicatedStorage.Remotes.Validator:FireServer(math.floor(u12 / 1099511627776 * 16777215), u10)
+            
+        end)
     end)
 end)
 
