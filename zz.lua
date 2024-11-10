@@ -105,47 +105,91 @@ local function ClearQ()
 end
 
 
+task.spawn(function()
+    while wait() do
+        for i,v in pairs(game:GetService("Workspace")["_WorldOrigin"]:GetChildren()) do
+            pcall(function()
+                if v.Name == ("CurvedRing") or v.Name == ("SlashHit") or v.Name == ("SwordSlash") or v.Name == ("SlashTail") or v.Name == ("Sounds") then
+                    v:Destroy()
+                end
+            end)
+        end
+    end
+end)
+
+
+if game:GetService("ReplicatedStorage").Effect.Container:FindFirstChild("Death") then
+    game:GetService("ReplicatedStorage").Effect.Container.Death:Destroy()
+end
+if game:GetService("ReplicatedStorage").Effect.Container:FindFirstChild("Respawn") then
+    game:GetService("ReplicatedStorage").Effect.Container.Respawn:Destroy()
+end
+
+-----LockFps----
+setfpscap(60)
+-----Fast Attack---
+getgenv().FastAttack = true
+local plr = game.Players.LocalPlayer
+
+local CbFw = debug.getupvalues(require(plr.PlayerScripts.CombatFramework))
+local CbFw2 = CbFw[2]
+
+function GetCurrentBlade() 
+    local y = CbFw2.activeController
+    local ret = y.blades[1]
+    if not ret then return end
+    while ret.Parent~=game.Players.LocalPlayer.Character do ret=ret.Parent end
+    return ret
+end
+
+spawn(function()
+    while wait(.4) do
+        if getgenv().FastAttack then
+            pcall(function()
+                game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("hit", bladehit, i, "")                     end)
+
+        end
+    end
+end)
+
 local CameraShaker = require(game.ReplicatedStorage.Util.CameraShaker)
 CombatFrameworkR = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework)
 y = debug.getupvalues(CombatFrameworkR)[2]
-
-local player = game.Players.LocalPlayer
-
-
-
 spawn(function()
     game:GetService("RunService").RenderStepped:Connect(function()
-        pcall(function()
-            if _G.AutoFarm then
-                CameraShaker:Stop()
-                y.activeController.timeToNextAttack = (math.huge^math.huge^math.huge)
-                y.activeController.timeToNextAttack = 0
-                y.activeController.hitboxMagnitude = 2048
-                y.activeController.active = false
-                y.activeController.timeToNextBlock = 0
-                y.activeController.focusStart = 0
-                y.activeController.increment = 1
-                y.activeController.blocking = false
-                y.activeController.attacking = false
-                y.activeController.humanoid.AutoRotate = true
-                GetCurrentBlade()
-
-                ret.activeController.timeToNextAttack = (math.huge^math.huge^math.huge)
-                ret.activeController.timeToNextAttack = 0
-                ret.activeController.hitboxMagnitude = 2048
-                ret.activeController.active = false
-                ret.activeController.timeToNextBlock = 0
-                ret.activeController.focusStart = 0
-                ret.activeController.increment = 1
-                ret.activeController.blocking = false
-                ret.activeController.attacking = false
-                ret.activeController.humanoid.AutoRotate = true
-
-                game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("weaponChange", tostring(GetCurrentBlade()))
-                game.ReplicatedStorage.Remotes.Validator:FireServer(math.floor(u12 / 1099511627776 * 16777215), u10)
-            
+        if getgenv().FastAttack then
+            if typeof(y) == "table" then
+                pcall(function()
+                    CameraShaker:Stop()
+                    
+                    y.activeController.timeToNextAttack = (math.huge^math.huge^math.huge)
+                    y.activeController.timeToNextAttack = 0
+                    y.activeController.hitboxMagnitude = 2048
+                    y.activeController.active = false
+                    y.activeController.timeToNextBlock = 0
+                    y.activeController.focusStart = 0
+                    y.activeController.increment = 1
+                    y.activeController.blocking = false
+                    y.activeController.attacking = false
+                    y.activeController.humanoid.AutoRotate = true
+                    GetCurrentBlade() 
+                    
+                    ret.activeController.timeToNextAttack = (math.huge^math.huge^math.huge)
+                    ret.activeController.timeToNextAttack = 0
+                    ret.activeController.hitboxMagnitude = 2048
+                    ret.activeController.active = false
+                    ret.activeController.timeToNextBlock = 0
+                    ret.activeController.focusStart = 0
+                    ret.activeController.increment = 1
+                    ret.activeController.blocking = false
+                    ret.activeController.attacking = false
+                    ret.activeController.humanoid.AutoRotate = true
+                    
+                    game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("weaponChange", tostring(GetCurrentBlade()))
+                    game.ReplicatedStorage.Remotes.Validator:FireServer(math.floor(u12 / 1099511627776 * 16777215), u10) 
+                end)
             end
-        end)
+        end
     end)
 end)
 
