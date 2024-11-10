@@ -1,15 +1,8 @@
 local Player = game:GetService("Players").LocalPlayer
 local Char = Player.Character or Player.CharacterAdded:Wait()
 local CameraShaker = require(game.ReplicatedStorage.Util.CameraShaker)
-CombatFrameworkR = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework)
-y = debug.getupvalues(CombatFrameworkR)[2]
-local player = game.Players.LocalPlayer
-
-local CameraShaker = require(game.ReplicatedStorage.Util.CameraShaker)
-CombatFrameworkR = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework)
-y = debug.getupvalues(CombatFrameworkR)[2]
-
-local player = game.Players.LocalPlayer
+local CombatFrameworkR = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework)
+local y = debug.getupvalues(CombatFrameworkR)[2]
 
 
 _G.AutoFarm = true
@@ -112,38 +105,46 @@ local function ClearQ()
 end
 
 
+local CameraShaker = require(game.ReplicatedStorage.Util.CameraShaker)
+CombatFrameworkR = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework)
+y = debug.getupvalues(CombatFrameworkR)[2]
+
+local player = game.Players.LocalPlayer
+
 
 
 spawn(function()
     game:GetService("RunService").RenderStepped:Connect(function()
         pcall(function()
-            CameraShaker:Stop()
-            y.activeController.timeToNextAttack = (math.huge^math.huge^math.huge)
-            y.activeController.timeToNextAttack = 0
-            y.activeController.hitboxMagnitude = 2048
-            y.activeController.active = false
-            y.activeController.timeToNextBlock = 0
-            y.activeController.focusStart = 0
-            y.activeController.increment = 1
-            y.activeController.blocking = false
-            y.activeController.attacking = false
-            y.activeController.humanoid.AutoRotate = true
-            GetCurrentBlade()
+            if _G.AutoFarm then
+                CameraShaker:Stop()
+                y.activeController.timeToNextAttack = (math.huge^math.huge^math.huge)
+                y.activeController.timeToNextAttack = 0
+                y.activeController.hitboxMagnitude = 2048
+                y.activeController.active = false
+                y.activeController.timeToNextBlock = 0
+                y.activeController.focusStart = 0
+                y.activeController.increment = 1
+                y.activeController.blocking = false
+                y.activeController.attacking = false
+                y.activeController.humanoid.AutoRotate = true
+                GetCurrentBlade()
 
-            ret.activeController.timeToNextAttack = (math.huge^math.huge^math.huge)
-            ret.activeController.timeToNextAttack = 0
-            ret.activeController.hitboxMagnitude = 2048
-            ret.activeController.active = false
-            ret.activeController.timeToNextBlock = 0
-            ret.activeController.focusStart = 0
-            ret.activeController.increment = 1
-            ret.activeController.blocking = false
-            ret.activeController.attacking = false
-            ret.activeController.humanoid.AutoRotate = true
+                ret.activeController.timeToNextAttack = (math.huge^math.huge^math.huge)
+                ret.activeController.timeToNextAttack = 0
+                ret.activeController.hitboxMagnitude = 2048
+                ret.activeController.active = false
+                ret.activeController.timeToNextBlock = 0
+                ret.activeController.focusStart = 0
+                ret.activeController.increment = 1
+                ret.activeController.blocking = false
+                ret.activeController.attacking = false
+                ret.activeController.humanoid.AutoRotate = true
 
-            game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("weaponChange", tostring(GetCurrentBlade()))
-            game.ReplicatedStorage.Remotes.Validator:FireServer(math.floor(u12 / 1099511627776 * 16777215), u10)
+                game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("weaponChange", tostring(GetCurrentBlade()))
+                game.ReplicatedStorage.Remotes.Validator:FireServer(math.floor(u12 / 1099511627776 * 16777215), u10)
             
+            end
         end)
     end)
 end)
