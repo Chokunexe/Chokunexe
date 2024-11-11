@@ -9,14 +9,7 @@ _G.AutoFarm = true
 _G.bringmob = true
 _G.FastAttack = true
 
-local function GetQuests(N, NB)
-    local args = {
-        [1] = "StartQuest",
-        [2] = N or "BanditQuest1",
-        [3] = NB or 1
-    }
-    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer(unpack(args))    
-end
+
 
 local function ChackQ()
     local Lv = Player:FindFirstChild("Data") and Player.Data:FindFirstChild("Level")
@@ -96,6 +89,17 @@ local function TW(...)
     end)
 end
 
+
+local function GetQuests(N, NB)
+    local args = {
+        [1] = "StartQuest",
+        [2] = N or "BanditQuest1",
+        [3] = NB or 1
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer(unpack(args))    
+end
+
+
 local function ClearQ()
     local currentQuest = Player.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text
     local questData = ChackQ()
@@ -104,26 +108,6 @@ local function ClearQ()
     end
 end
 
-
-task.spawn(function()
-    while wait() do
-        for i,v in pairs(game:GetService("Workspace")["_WorldOrigin"]:GetChildren()) do
-            pcall(function()
-                if v.Name == ("CurvedRing") or v.Name == ("SlashHit") or v.Name == ("SwordSlash") or v.Name == ("SlashTail") or v.Name == ("Sounds") then
-                    v:Destroy()
-                end
-            end)
-        end
-    end
-end)
-
-
-if game:GetService("ReplicatedStorage").Effect.Container:FindFirstChild("Death") then
-    game:GetService("ReplicatedStorage").Effect.Container.Death:Destroy()
-end
-if game:GetService("ReplicatedStorage").Effect.Container:FindFirstChild("Respawn") then
-    game:GetService("ReplicatedStorage").Effect.Container.Respawn:Destroy()
-end
 
 -----LockFps----
 setfpscap(60)
@@ -186,7 +170,8 @@ spawn(function()
                     ret.activeController.humanoid.AutoRotate = true
                     
                     game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("weaponChange", tostring(GetCurrentBlade()))
-                    game.ReplicatedStorage.Remotes.Validator:FireServer(math.floor(u12 / 1099511627776 * 16777215), u10) 
+                    game.ReplicatedStorage.Remotes.Validator:FireServer(math.floor(u12 / 1099511627776 * 16777215), u10)
+                    FastAttack()
                 end)
             end
         end
@@ -238,8 +223,9 @@ while _G.bringmob do wait()
     pcall(function()
         for i, v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
             if v.Name == Mon then  -- ตรวจสอบว่ามอนสเตอร์ตรงกับชื่อตัวแปร Mon หรือไม่
-                for x, y in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-                    if y.Name == Mon then
+                if y.Name == Mon then
+                    for x, y in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                    
                         v.HumanoidRootPart.CFrame = y.HumanoidRootPart.CFrame
                         v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
                         y.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
