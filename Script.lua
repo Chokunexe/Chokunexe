@@ -99,6 +99,8 @@ local function ClearQ()
     end
 end
 
+_G.AutoClick = true
+
 spawn(function()
     game:GetService("RunService").RenderStepped:Connect(function()
         if _G.AutoClick then
