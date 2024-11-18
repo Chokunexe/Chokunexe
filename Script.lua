@@ -101,7 +101,7 @@ end
 
 spawn(function()
     game:GetService("RunService").RenderStepped:Connect(function()
-        if _G.AutoClick or _G.FastAttack then
+        if _G.AutoClick then
             pcall(function()
                 game:GetService('VirtualUser'):CaptureController()
                 game:GetService('VirtualUser'):Button1Down(Vector2.new(0, 1, 0, 1))
