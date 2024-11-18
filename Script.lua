@@ -220,9 +220,11 @@ spawn(function()
     end
 end)
 
+_G.Bringmob = true
+
 spawn(function()
     while wait() do
-        if _G.BringMob then
+        if _G.Bringmob then
             pcall(function()
                 CheckQuest()
                 for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
