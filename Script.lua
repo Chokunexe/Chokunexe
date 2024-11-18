@@ -226,23 +226,26 @@ spawn(function()
     while wait() do
         if _G.Bringmob then
             pcall(function()
-                CheckQuest()
-                for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-                    for x,y in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                -- ตรวจสอบ questData ที่ถูกต้อง
+                local questData = ChackQ()  -- ตรวจสอบการใช้ ChackQ() ให้ถูกต้อง
+                if questData then
+                    for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                         if v.Name == questData.Mon then
-                            if y.Name == questData.Mon then
-                                v.HumanoidRootPart.CFrame = y.HumanoidRootPart.CFrame
-                                v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
-                                y.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
-                                v.HumanoidRootPart.Transparency = 1
-                                v.HumanoidRootPart.CanCollide = false
-                                y.HumanoidRootPart.CanCollide = false
-                                v.Humanoid.WalkSpeed = 0
-                                y.Humanoid.WalkSpeed = 0
-                                v.Humanoid.JumpPower = 0
-                                y.Humanoid.JumpPower = 0
-                                if sethiddenproperty then
-                                    sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+                            for x,y in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                                if y.Name == questData.Mon then
+                                    v.HumanoidRootPart.CFrame = y.HumanoidRootPart.CFrame
+                                    v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+                                    y.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+                                    v.HumanoidRootPart.Transparency = 1
+                                    v.HumanoidRootPart.CanCollide = false
+                                    y.HumanoidRootPart.CanCollide = false
+                                    v.Humanoid.WalkSpeed = 0
+                                    y.Humanoid.WalkSpeed = 0
+                                    v.Humanoid.JumpPower = 0
+                                    y.Humanoid.JumpPower = 0
+                                    if sethiddenproperty then
+                                        sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+                                    end
                                 end
                             end
                         end
@@ -252,3 +255,4 @@ spawn(function()
         end
     end
 end)
+
