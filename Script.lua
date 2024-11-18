@@ -225,8 +225,8 @@ spawn(function()
                 CheckQuest()
                 for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                     for x,y in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-                        if v.Name == Mon then
-                            if y.Name == Mon then
+                        if v.Name == questData.Mon then
+                            if y.Name == questData.Mon then
                                 v.HumanoidRootPart.CFrame = y.HumanoidRootPart.CFrame
                                 v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
                                 y.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
