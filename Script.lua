@@ -101,7 +101,7 @@ end
 
 spawn(function()
     game:GetService("RunService").RenderStepped:Connect(function()
-        if _G.AutoClick or Fastattack then
+        if _G.AutoClick or _G.FastAttack then
             pcall(function()
                 game:GetService('VirtualUser'):CaptureController()
                 game:GetService('VirtualUser'):Button1Down(Vector2.new(0, 1, 0, 1))
@@ -199,17 +199,17 @@ spawn(function()
                         if enemy then
                             repeat
                                 if enemy and enemy:FindFirstChild("Humanoid") and enemy:FindFirstChild("HumanoidRootPart") and enemy.Humanoid.Health > 0 then
-                                    TW(enemy:FindFirstChild("HumanoidRootPart").CFrame * CFrame.new(0, 20, 0))
+                                    TW(enemy:FindFirstChild("HumanoidRootPart").CFrame * CFrame.new(0, 30, 0))
                                     game:GetService("VirtualUser"):CaptureController()
                                     game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
                                 else
-                                    Char.HumanoidRootPart.CFrame = questData.CFrameMon * CFrame.new(0, 20, 0)
+                                    Char.HumanoidRootPart.CFrame = questData.CFrameMon * CFrame.new(0, 30, 0)
                                 end
                                 wait(1)
                                 enemy = game:GetService("Workspace").Enemies:FindFirstChild(questData.Mon)
                             until not _G.AutoFarm or not UIQ.Visible
                         else
-                            Char.HumanoidRootPart.CFrame = questData.CFrameMon * CFrame.new(0, 20, 0)
+                            Char.HumanoidRootPart.CFrame = questData.CFrameMon * CFrame.new(0, 30, 0)
                         end
                     end
                 end
@@ -223,10 +223,10 @@ spawn(function()
         if _G.BringMob then
             pcall(function()
                 CheckQuest()
-                for i, v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-                    for i, y in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-                        if v.Name == questData.Mon then
-                            if y.Name == questData.Mon then
+                for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                    for x,y in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                        if v.Name == Mon then
+                            if y.Name == Mon then
                                 v.HumanoidRootPart.CFrame = y.HumanoidRootPart.CFrame
                                 v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
                                 y.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
