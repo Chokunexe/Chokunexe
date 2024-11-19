@@ -4,11 +4,11 @@ local Char = Player.Character or Player.CharacterAdded:Wait()
 
 _G.AutoFarm = true
 
-local function GetQuests(NameQ, NumQ)
+local function GetQuests(N, NB)
     local args = {
         [1] = "StartQuest",
-        [2] = NameQ,
-        [3] = NumQ
+        [2] = N or "BanditQuest1",
+        [3] = NB or 1
     }
     game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer(unpack(args))    
 end
