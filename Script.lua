@@ -24,7 +24,7 @@ local function ChackQ()
                 ["CFrameQ"] = CFrame.new(1059.37195, 15.4495068, 1550.4231),
                 ["CFrameMon"] = CFrame.new(1196.172, 11.8689699, 1616.95923)
             }
-        elseif Lv.Value >= 10 and Lv.Value < 29 then
+        elseif Lv.Value >= 10 and Lv.Value <= 29 then
             return {
                 ["Mon"] = 'Monkey',
                 ["NumQ"] = 1,
