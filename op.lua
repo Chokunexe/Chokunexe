@@ -328,3 +328,7 @@ spawn(function()
         end
     end)
 end)
+
+Section:NewKeybind("KeybindText", "KeybindInfo", Enum.KeyCode.RightControl, function()
+	Library:ToggleUI()
+end)
