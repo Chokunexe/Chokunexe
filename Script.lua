@@ -48,7 +48,7 @@ local function ChackQ()
                 ["CFrameQ"] = CFrame.new(-1140.762939453125, 5.277381896972656, 3830.43017578125),
                 ["CFrameMon"] = CFrame.new(-1145.1796875, 14.935205459594727, 4315.4931640625)
             }
-        elseif Lv.Value >= 60 and Lv.Value < 69 then
+        elseif Lv.Value >= 60 and Lv.Value <= 69 then
             return {
                 ["Mon"] = 'Desert Bandit',
                 ["NumQ"] = 1,
@@ -74,7 +74,7 @@ local function TW(...)
     pcall(function()
         if not _G.StopTween and Char and Char:FindFirstChild("HumanoidRootPart") then
             local Distance = (CFrame[1].Position - Char.HumanoidRootPart.Position).Magnitude
-            Tween = game:GetService("TweenService"):Create(Char.HumanoidRootPart, TweenInfo.new(Distance/270, Enum.EasingStyle.Cubic), {CFrame = CFrame[1]})
+            Tween = game:GetService("TweenService"):Create(Char.HumanoidRootPart, TweenInfo.new(Distance/290, Enum.EasingStyle.Cubic), {CFrame = CFrame[1]})
             if _G.StopTween then 
                 Tween:Cancel()
             elseif Char.Humanoid.Health > 0 then 
@@ -166,17 +166,17 @@ spawn(function()
                         if enemy then
                             repeat
                                 if enemy and enemy:FindFirstChild("Humanoid") and enemy:FindFirstChild("HumanoidRootPart") and enemy.Humanoid.Health > 0 then
-                                    TW(enemy:FindFirstChild("HumanoidRootPart").CFrame * CFrame.new(0, 30, 0))
+                                    TW(enemy:FindFirstChild("HumanoidRootPart").CFrame * CFrame.new(0, 35, 0))
                                     game:GetService("VirtualUser"):CaptureController()
                                     game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
                                 else
-                                    Char.HumanoidRootPart.CFrame = questData.CFrameMon * CFrame.new(0, 30, 0)
+                                    Char.HumanoidRootPart.CFrame = questData.CFrameMon * CFrame.new(0, 35, 0)
                                 end
                                 wait(1)
                                 enemy = game:GetService("Workspace").Enemies:FindFirstChild(questData.Mon)
                             until not _G.AutoFarm or not UIQ.Visible
                         else
-                            Char.HumanoidRootPart.CFrame = questData.CFrameMon * CFrame.new(0, 30, 0)
+                            Char.HumanoidRootPart.CFrame = questData.CFrameMon * CFrame.new(0, 35, 0)
                         end
                     end
                 end
