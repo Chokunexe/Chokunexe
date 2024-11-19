@@ -122,7 +122,7 @@ local function TW(...)
     pcall(function()
         if not _G.StopTween and Char and Char:FindFirstChild("HumanoidRootPart") then
             local Distance = (CFrame[1].Position - Char.HumanoidRootPart.Position).Magnitude
-            Tween = game:GetService("TweenService"):Create(Char.HumanoidRootPart, TweenInfo.new(Distance/270, Enum.EasingStyle.Cubic), {CFrame = CFrame[1]})
+            Tween = game:GetService("TweenService"):Create(Char.HumanoidRootPart, TweenInfo.new(Distance/250, Enum.EasingStyle.Cubic), {CFrame = CFrame[1]})
             if _G.StopTween then 
                 Tween:Cancel()
             elseif Char.Humanoid.Health > 0 then 
@@ -223,7 +223,7 @@ spawn(function()
         if _G.Click then
             pcall(function()
                 game:GetService("VirtualUser"):CaptureController()
-                game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 1, 0, 1))
+                game:GetService("VirtualUser"):Button1Down(Vector2.new(0,20,0,20))
             end)
         end
     end)
@@ -268,6 +268,22 @@ spawn(function()
     end
 end)
 
+
+_G.AUTOHAKI = true
+spawn(function()
+    while wait(.1) do
+        if _G.AUTOHAKI then 
+            if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") then
+                local args = {
+                    [1] = "Buso"
+                }
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+            end
+        end
+    end
+end)
+
+
 _G.BringMob = true
 spawn(function()
     while wait() do
@@ -299,3 +315,7 @@ spawn(function()
         end
     end
 end)
+
+
+
+
