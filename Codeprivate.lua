@@ -216,17 +216,16 @@ spawn(function()
     end)
 end)
 
-(getgenv()).Config = {
- ["ClickAttack"] = true
-} 
+getgenv().Config = {
+    ["ClickAttack"] = true
+}
 
 spawn(function()
     game:GetService("RunService").RenderStepped:Connect(function()
-        if getgenv().Config['ClickAttack'] then
-             pcall(function()
-                game:GetService'VirtualUser':CaptureController()
-						
-			game:GetService'VirtualUser':Button1Down(Vector2.new(0,1,0,1))
+        if getgenv().Config["ClickAttack"] then
+            pcall(function()
+                game:GetService("VirtualUser"):CaptureController()
+                game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 1, 0, 1))
             end)
         end
     end)
