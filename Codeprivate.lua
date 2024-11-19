@@ -216,6 +216,10 @@ spawn(function()
     end)
 end)
 
+(getgenv()).Config = {
+ ["ClickAttack"] = true
+} 
+
 spawn(function()
     game:GetService("RunService").RenderStepped:Connect(function()
         if getgenv().Config['ClickAttack'] then
