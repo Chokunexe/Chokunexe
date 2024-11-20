@@ -224,7 +224,7 @@ spawn(function()
             game:GetService("VirtualUser"):CaptureController()
             game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 20))
         end)
-        wait(0.05) -- 20 ครั้งต่อวินาที (1 วินาที / 20 = 0.05)
+        wait(0.01) -- 20 ครั้งต่อวินาที (1 วินาที / 20 = 0.05)
     end
 end)
 
@@ -247,17 +247,17 @@ spawn(function()
                         if enemy then
                             repeat
                                 if enemy and enemy:FindFirstChild("Humanoid") and enemy:FindFirstChild("HumanoidRootPart") and enemy.Humanoid.Health > 0 then
-                                    TW(enemy:FindFirstChild("HumanoidRootPart").CFrame * CFrame.new(0, 20, 0))
+                                    TW(enemy:FindFirstChild("HumanoidRootPart").CFrame * CFrame.new(0, 30, 0))
                                     game:GetService("VirtualUser"):CaptureController()
                                     game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
                                 else
-                                    Char.HumanoidRootPart.CFrame = questData.CFrameMon * CFrame.new(0, 20, 0)
+                                    Char.HumanoidRootPart.CFrame = questData.CFrameMon * CFrame.new(0, 30, 0)
                                 end
                                 wait(1)
                                 enemy = game:GetService("Workspace").Enemies:FindFirstChild(questData.Mon)
                             until not _G.AutoFarm or not UIQ.Visible
                         else
-                            Char.HumanoidRootPart.CFrame = questData.CFrameMon * CFrame.new(0, 20, 0)
+                            Char.HumanoidRootPart.CFrame = questData.CFrameMon * CFrame.new(0, 30, 0)
                         end
                     end
                 end
