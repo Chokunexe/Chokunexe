@@ -184,8 +184,8 @@ spawn(function()
             if typeof(y) == "table" then
                 pcall(function()
                     CameraShaker:Stop()
-                    y.activeController.timeToNextAttack = 0
-                    y.activeController.timeToNextAttack = 0
+                    y.activeController.timeToNextAttack = 300
+                    y.activeController.timeToNextAttack = 300
                     y.activeController.hitboxMagnitude = 2048
                     y.activeController.active = false
                     y.activeController.timeToNextBlock = 0
@@ -197,8 +197,8 @@ spawn(function()
                     GetCurrentBlade()
                     local ret = GetCurrentBlade()
                     if ret then
-                        ret.activeController.timeToNextAttack = 0
-                        ret.activeController.timeToNextAttack = 0
+                        ret.activeController.timeToNextAttack = 300
+                        ret.activeController.timeToNextAttack = 300
                         ret.activeController.hitboxMagnitude = 2048
                         ret.activeController.active = false
                         ret.activeController.timeToNextBlock = 0
