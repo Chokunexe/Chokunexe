@@ -80,7 +80,7 @@ local function CheckQuest()
                 ["CFrameQ"] = CFrame.new(1389.74451, 86.6520844, -1298.90796, -0.342042685, 0, 0.939684391, 0, 1, 0, -0.939684391, 0, -0.342042685),
                 ["CFrameMon"] = CFrame.new(1376.86401, 97.2779999, -1396.93115, -0.986755967, 7.71178321e-08, -0.162211925, 7.71531674e-08, 1, 6.08143536e-09, 0.162211925, -6.51427134e-09, -0.986755967)
             }
-        elseif Lv.Value >= 120 and Lv.Value <= 129 then
+        elseif Lv.Value >= 120 and Lv.Value <= 149 then
             return {
                 ["Mon"] = 'Chief Petty Officer',
                 ["NumQ"] = 1,
@@ -88,7 +88,7 @@ local function CheckQuest()
                 ["CFrameQ"] = CFrame.new(-5039.58643, 27.3500385, 4324.68018, 0, 0, -1, 0, 1, 0, 1, 0, 0),
                 ["CFrameMon"] = CFrame.new(-4882.8623, 22.6520386, 4255.53516, 0.273695946, -5.40380647e-08, -0.96181643, 4.37720793e-08, 1, -4.37274998e-08, 0.96181643, -3.01326679e-08, 0.273695946)
             }
-        elseif Lv.Value >= 130 and Lv.Value <= 174 then
+        elseif Lv.Value >= 150 and Lv.Value <= 174 then
             return {
                 ["Mon"] = 'Sky Bandit',
                 ["NumQ"] = 1,
@@ -122,7 +122,7 @@ local function TW(...)
     pcall(function()
         if not _G.StopTween and Char and Char:FindFirstChild("HumanoidRootPart") then
             local Distance = (CFrame[1].Position - Char.HumanoidRootPart.Position).Magnitude
-            Tween = game:GetService("TweenService"):Create(Char.HumanoidRootPart, TweenInfo.new(Distance/250, Enum.EasingStyle.Cubic), {CFrame = CFrame[1]})
+            Tween = game:GetService("TweenService"):Create(Char.HumanoidRootPart, TweenInfo.new(Distance/200, Enum.EasingStyle.Cubic), {CFrame = CFrame[1]})
             if _G.StopTween then 
                 Tween:Cancel()
             elseif Char.Humanoid.Health > 0 then 
@@ -224,7 +224,7 @@ spawn(function()
             game:GetService("VirtualUser"):CaptureController()
             game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 20))
         end)
-        wait(0.005) -- 20 ครั้งต่อวินาที (1 วินาที / 20 = 0.05)
+        wait(0.001) -- 20 ครั้งต่อวินาที (1 วินาที / 20 = 0.05)
     end
 end)
 
@@ -323,7 +323,7 @@ task.spawn(function()
                 game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
                     "AddPoint",
                     "Melee",
-                    100
+                    1
                 )
             end
         end)
