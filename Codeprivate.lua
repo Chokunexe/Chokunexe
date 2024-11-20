@@ -224,7 +224,7 @@ spawn(function()
             game:GetService("VirtualUser"):CaptureController()
             game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 20))
         end)
-        wait(0.01) -- 20 ครั้งต่อวินาที (1 วินาที / 20 = 0.05)
+        wait(0.005) -- 20 ครั้งต่อวินาที (1 วินาที / 20 = 0.05)
     end
 end)
 
@@ -314,6 +314,20 @@ spawn(function()
     end
 end)
 
+_G.UpMelee = true
 
+task.spawn(function()
+    while wait() do
+        pcall(function()
+            if _G.UpMelee then
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+                    "AddPoint",
+                    "Melee",
+                    100
+                )
+            end
+        end)
+    end
+end) 
 
 
