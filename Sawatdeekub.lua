@@ -117,37 +117,77 @@ local function CheckQuest()
     return nil
 end
 
-local function TW(...)
-    local CFrame = {...}
+local function TW(targetCFrame)
     pcall(function()
         if not _G.StopTween and Char and Char:FindFirstChild("HumanoidRootPart") then
-            local Distance = (CFrame[1].Position - Char.HumanoidRootPart.Position).Magnitude
+            -- คำนวณระยะทางและเวลา
+            local Distance = (targetCFrame.Position - Char.HumanoidRootPart.Position).Magnitude
             local Speed = 300 -- ความเร็ว 300 หน่วย/วินาที
             local Time = Distance / Speed -- เวลา = ระยะทาง / ความเร็ว
-            
+
             -- สร้าง Tween
-            Tween = game:GetService("TweenService"):Create(
+            local tween = game:GetService("TweenService"):Create(
                 Char.HumanoidRootPart,
-                TweenInfo.new(Time, Enum.EasingStyle.Cubic),
-                {CFrame = CFrame[1]}
+                TweenInfo.new(Time, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out),
+                {CFrame = targetCFrame}
             )
             
-            if _G.StopTween then 
-                Tween:Cancel()
-            elseif Char.Humanoid.Health > 0 then 
-                Tween:Play() 
+            -- เล่น Tween หากไม่ถูกยกเลิก
+            if Char.Humanoid.Health > 0 and not _G.StopTween then
+                tween:Play()
+                tween.Completed:Connect(function()
+                    -- หลังจากเล่นเสร็จเรียบร้อยให้ทำฟาร์มต่อ
+                    if _G.AutoFarm then
+                        -- เรียกฟังก์ชันฟาร์ม
+                        Farm()
+                    end
+                end)
             end
-            
-            -- เพิ่ม BodyVelocity หากยังไม่มี
-            if not Char.HumanoidRootPart:FindFirstChild("OMG Hub") then
-                local Noclip = Instance.new("BodyVelocity")
-                Noclip.Name = "OMG Hub"
-                Noclip.Parent = Char.HumanoidRootPart
-                Noclip.MaxForce = Vector3.new(9e99, 9e99, 9e99)
-                Noclip.Velocity = Vector3.zero
+
+            -- เพิ่ม BodyPosition เพื่อไม่ให้ตัวละครตก
+            local noclip = Char.HumanoidRootPart:FindFirstChild("OMG Hub")
+            if not noclip then
+                noclip = Instance.new("BodyVelocity")
+                noclip.Name = "OMG Hub"
+                noclip.Parent = Char.HumanoidRootPart
+                noclip.MaxForce = Vector3.new(9e99, 9e99, 9e99)
+                noclip.Velocity = Vector3.zero -- ป้องกันการตก
+            end
+
+            -- ใช้ BodyPosition เพื่อล็อคตำแหน่งให้ตัวละครอยู่ในตำแหน่งที่ต้องการ
+            local bodyPosition = Char.HumanoidRootPart:FindFirstChild("OMG Position")
+            if not bodyPosition then
+                bodyPosition = Instance.new("BodyPosition")
+                bodyPosition.MaxForce = Vector3.new(400000, 400000, 400000) -- ป้องกันการตก
+                bodyPosition.D = 1000 -- ลดการสั่น
+                bodyPosition.P = 5000 -- เพิ่มความแรงในการดึงกลับ
+                bodyPosition.Parent = Char.HumanoidRootPart
+            end
+
+            -- ตั้งค่าตำแหน่งให้ลอยในอากาศ
+            bodyPosition.Position = targetCFrame.Position
+
+            -- ลูปให้ตัวละครเคลื่อนไปยังตำแหน่งที่ต้องการ
+            while _G.AutoFarm and Char.Humanoid.Health > 0 do
+                local DistanceToTarget = (targetCFrame.Position - Char.HumanoidRootPart.Position).Magnitude
+                if DistanceToTarget > 2 then
+                    -- หากยังไม่ถึงตำแหน่งที่ต้องการ ก็ทำ `Tween` ใหม่
+                    tween:Play()
+                else
+                    -- ถ้าไปถึงตำแหน่งแล้วก็ทำการฟาร์ม
+                    Farm() -- ฟังก์ชันฟาร์มที่ต้องการ
+                    break
+                end
+                wait(0.1) -- รอระยะสั้นเพื่อให้ `Tween` ทำงาน
             end
         end
     end)
+end
+
+-- ฟังก์ชันฟาร์ม (เพิ่มตรงนี้ตามที่คุณต้องการ)
+function Farm()
+    -- ฟังก์ชันฟาร์มที่ทำให้ตัวละครทำฟาร์มอย่างต่อเนื่อง
+    -- คุณสามารถเพิ่มโค้ดฟาร์มที่ต้องการที่นี่ เช่น การโจมตีมอนสเตอร์
 end
 
 local function ClearQ()
