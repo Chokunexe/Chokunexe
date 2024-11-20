@@ -1,7 +1,4 @@
-(getgenv()).Config = {
-    ["FastAttack"] = true,
-    ["ClickAttack"] = true
-} 
+getgenv().Config['FastAttack'] = true
 
 coroutine.wrap(function()
     local StopCamera = require(game.ReplicatedStorage.Util.CameraShaker)
@@ -33,3 +30,15 @@ coroutine.wrap(function()
         end
     end
 end)()
+
+_G.Click = true
+
+spawn(function()
+    while _G.Click do
+        pcall(function()
+            game:GetService("VirtualUser"):CaptureController()
+            game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 20))
+        end)
+        wait(0.0001)
+    end
+end)
