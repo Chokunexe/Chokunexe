@@ -224,7 +224,7 @@ spawn(function()
             game:GetService("VirtualUser"):CaptureController()
             game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 20))
         end)
-        wait(0.1) -- ปรับความเร็วในการคลิก (0.1 = 10 คลิกต่อวินาที)
+        wait(0.05) -- 20 ครั้งต่อวินาที (1 วินาที / 20 = 0.05)
     end
 end)
 
