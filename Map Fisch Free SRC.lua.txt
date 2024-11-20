@@ -1,0 +1,181 @@
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Workspace = game:GetService("Workspace")
+local VirtualInputManager, RunService = game:GetService("VirtualInputManager"), game:GetService("RunService")
+local player = game:GetService("Players").LocalPlayer
+
+_G.WindowConfig = {
+    Title = "[🐟] Fisch | Free SRC",
+    SubTitle = "By DNA#7270 ",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(500, 400),
+    Acrylic = true,
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.LeftControl
+}
+
+_G.FishingConfig = {
+    TabIcon = {
+        Main = "fish",
+    },
+    ButtonDefaults = {
+        Size = 200,
+        Transparency = 1
+    },
+    ActionDelays = {
+        Cast = 100,
+        Reel = 100
+    }
+}
+
+local Window = Fluent:CreateWindow(_G.WindowConfig)
+local Tabs = {
+    Main = Window:AddTab({ Title = "AutoFarm", Icon = _G.FishingConfig.TabIcon.Main })
+}
+
+local isEventActive, isReelActive, lastActionTime, currentRod = false, false, tick(), nil
+local lastEquipTime, lastEquipReset, equipCount, lastCastReset, castCount = 0, tick(), 0, tick(), 0
+
+local function CheckCurrentRod()
+    local rodsFolder, playerRods = ReplicatedStorage.playerstats[player.Name].Rods, Workspace[player.Name]
+    for _, rod in pairs(rodsFolder:GetChildren()) do
+        if playerRods:FindFirstChild(rod.Name) then
+            currentRod = rod.Name
+            break
+        end
+    end
+end
+
+local function EquipRodIfInBackpack()
+    local currentTime = tick()
+    if currentTime - lastEquipReset >= 1 then
+        equipCount, lastEquipReset = 0, currentTime
+    end
+    if equipCount < 3 then
+        for _, rod in pairs(ReplicatedStorage.playerstats[player.Name].Rods:GetChildren()) do
+            if player.Backpack:FindFirstChild(rod.Name) then
+                player.PlayerGui.hud.safezone.backpack.events.equip:FireServer(player.Backpack[rod.Name])
+                equipCount, lastEquipTime = equipCount + 1, currentTime
+                wait(0.5)
+                CheckCurrentRod()
+                return
+            end
+        end
+        CheckCurrentRod()
+    else end
+end
+
+local function CastRod()
+    local currentTime = tick()
+    if currentTime - lastCastReset >= 1 then
+        castCount, lastCastReset = 0, currentTime
+    end
+    if castCount < 3 and currentRod then
+        local rodEvent = Workspace:FindFirstChild(player.Name) and Workspace[player.Name]:FindFirstChild(currentRod) and Workspace[player.Name][currentRod].events:FindFirstChild("cast")
+        if rodEvent then
+            rodEvent:FireServer(_G.FishingConfig.ActionDelays.Reel, 1)
+            castCount, lastActionTime = castCount + 1, currentTime
+        end
+    else end
+end
+
+local function InteractWithButton(button)
+    if button then
+        local originalSize, originalTransparency = button.Size, button.BackgroundTransparency
+        button.Size, button.BackgroundTransparency = UDim2.new(0, _G.FishingConfig.ButtonDefaults.Size, 0, _G.FishingConfig.ButtonDefaults.Size), _G.FishingConfig.ButtonDefaults.Transparency
+        local buttonPosition, buttonSizeAbs = button.AbsolutePosition, button.AbsoluteSize
+        local clickPosition = buttonPosition + buttonSizeAbs / 2
+        VirtualInputManager:SendMouseButtonEvent(clickPosition.X, clickPosition.Y, 0, true, game, 0)
+        RunService.Heartbeat:Wait()
+        VirtualInputManager:SendMouseButtonEvent(clickPosition.X, clickPosition.Y, 0, false, game, 0)
+        button.Size, button.BackgroundTransparency = originalSize, originalTransparency
+        lastActionTime = tick()
+    end
+end
+
+local function AutoQuickTimeEvent()
+    local button = player.PlayerGui:FindFirstChild("shakeui") and player.PlayerGui.shakeui.safezone:FindFirstChild("button")
+    if button then InteractWithButton(button) end
+    if tick() - lastActionTime > _G.FishingConfig.ActionDelays.Cast then CastRod() end
+end
+
+local function CheckReel()
+    local reel = player.PlayerGui:FindFirstChild("reel")
+    if reel and not isReelActive then
+        isReelActive = true
+        wait(1)
+        ReplicatedStorage.events.reelfinished:FireServer(_G.FishingConfig.ActionDelays.Reel, false)
+        lastActionTime, isReelActive = tick(), false
+    elseif not reel and isReelActive then
+        isReelActive, lastActionTime = false, tick()
+        CastRod()
+    end
+end
+
+local function CheckInactivity()
+    if isEventActive and tick() - lastActionTime >= 5 then
+        isEventActive = false
+        autoEventToggle:Set(false)
+    end
+end
+
+RunService.Heartbeat:Connect(function()
+    if isEventActive then
+        AutoQuickTimeEvent()
+        CheckReel()
+        if tick() - lastActionTime > 2 then
+            wait(0.5)
+            EquipRodIfInBackpack()
+            CastRod()
+        end
+    end
+    CheckInactivity()
+end)
+
+local autoEventToggle = Tabs.Main:AddToggle("AutoEventToggle", {
+    Title = "Auto Fishing",
+    Description = "Enable or disable automatic fishing",
+    Default = false,
+    Callback = function(enabled)
+        isEventActive = enabled
+        if isEventActive then
+            wait(0.5)
+            EquipRodIfInBackpack()
+            lastActionTime = tick()
+            CastRod()
+        end
+    end
+})
+
+local ButtonSize = Tabs.Main:AddSlider("ButtonSize", {
+    Title = "Button Size",
+    Description = "Adjust button size",
+    Min = 150,
+    Max = 300,
+    Default = _G.FishingConfig.ButtonDefaults.Size,
+    Rounding = 1,
+    Callback = function(value)
+        _G.FishingConfig.ButtonDefaults.Size = value
+    end
+})
+
+ButtonSize:SetValue(_G.FishingConfig.ButtonDefaults.Size)
+
+local buttonTransparency = Tabs.Main:AddSlider("ButtonTransparency", {
+    Title = "Button Transparency",
+    Description = "Set button transparency level",
+    Min = 0,
+    Max = 1,
+    Increment = 0.1,
+    Default = _G.FishingConfig.ButtonDefaults.Transparency,
+    Rounding = 1,
+    Callback = function(value)
+        _G.FishingConfig.ButtonDefaults.Transparency = value
+    end
+})
+
+buttonTransparency:SetValue(_G.FishingConfig.ButtonDefaults.Transparency)
+
+Window:SelectTab(1)
