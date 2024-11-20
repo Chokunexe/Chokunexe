@@ -4,7 +4,10 @@ local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 local VirtualInputManager, RunService = game:GetService("VirtualInputManager"), game:GetService("RunService")
-local player = game:GetService("Players").LocalPlayer
+local players = game:GetService("Players").LocalPlayer
+local Player = game:GetService("Players").LocalPlayer
+local Char = Player.Character or Player.CharacterAdded:Wait()
+
 
 _G.WindowConfig = {
     Title = "[🐟] Fisch | Free SRC",
